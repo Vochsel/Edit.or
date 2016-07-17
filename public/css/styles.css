@@ -43,3 +43,15 @@ body {
 	cursor: pointer;
 }
 
+#gui {	
+	z-index: 100;
+	top: 0;
+	left: 0;
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	cursor: pointer;
+	pointer-events: none;
+	
+}
+

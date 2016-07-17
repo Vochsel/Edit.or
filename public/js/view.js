@@ -4,14 +4,14 @@ function Camera() {
 	var y = 0;
 	var zoom = 1;
 
-	/*if(localStorage["Edit.or_Camera"]) {
+	if(localStorage["Edit.or_Camera"]) {
 		var loadcam = JSON.parse(localStorage["Edit.or_Camera"]);
 		x = loadcam.pos.x;
 		y = loadcam.pos.y;
 		zoom = loadcam.zoom;
 		console.log("Found storage")
 		console.log(loadcam);
-	}*/
+	}
 
 	return {
 		pos: {

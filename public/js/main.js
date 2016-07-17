@@ -1,24 +1,46 @@
 var gl, programInfo;
-var shaders;
+var shaders = [];
 
 var camera;
+
+SDF.Create.circle(0, 0, 10);
+
+var headers_glsl = Resources.require("shaders/fragment/headers.glsl");
+var main_glsl = Resources.require("shaders/fragment/main.glsl");
+var sdf_glsl = Resources.require("shaders/fragment/sdf.glsl");
+var map_glsl = Resources.require("shaders/fragment/fragment.glsl");
+var fragment_glsl = "";
+var vertex_glsl = Resources.require("shaders/vertex/vertex.glsl");
+
+
+Resources.oncomplete = function() {
+  fragment_glsl = Utils.String.combine([headers_glsl.data, sdf_glsl.data, SDF.stringify(), main_glsl.data]);
+  shaders[0] = vertex_glsl.data;
+  shaders[1] = fragment_glsl;
+
+  SetupEditor();
+}
+
+
+//var sdfLib = Utils.loadFile("shaders")
 
 function SetShaders(vertSrc, fragSrc) {
   var p = twgl.createProgramFromSources(gl, [vertSrc, fragSrc]);
   programInfo = twgl.createProgramInfoFromProgram(gl, p);
 }
 
-
 function Initialize() {
   //Utils.loadFile("scripts")
-  Utils.loadFiles(["shaders/vertex.glsl", "shaders/fragment.glsl"], function(c) {
-    console.log(c);
-    shaders = c;
-    Setup();
-  })
+  Resources.load();
+  //Utils.File.loadFiles(["shaders/vertex.glsl", "shaders/fragment.glsl"], function(c) {
+    //console.log(c);
+    //shaders = c;
+    //SetupEditor();
+    //SetupGUI();
+  //})
 }
 
-function Setup()
+function SetupEditor()
 {
     //Setup GL
     gl = twgl.getWebGLContext(document.getElementById("editor"));
@@ -82,4 +104,23 @@ function Setup()
       requestAnimationFrame(displayLoop);
     }
   requestAnimationFrame(displayLoop);
+}
+
+function SetupGUI() {
+  var c = document.getElementById("gui");
+  var ctx = c.getContext('2d');
+
+  function draw() {
+    c.width = window.innerWidth;
+    c.height = window.innerHeight;
+   // console.log(camera.pos);
+    ctx.save();
+      ctx.translate((camera.pos.x * -c.width) / 1.23, camera.pos.y * c.height / 1.23);
+      ctx.scale(1/camera.zoom, 1/camera.zoom);
+      ctx.fillStyle = "orange";
+      ctx.fillRect(10, 10, 100, 100);
+    ctx.restore();
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
 }
