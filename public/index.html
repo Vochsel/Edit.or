@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<!-- Libraries -->
+		<script type="text/javascript" src="lib/twgl-full.js"></script>
+		<script type="text/javascript" src="lib/maths.js"></script>
+
+		<!-- Shaders -->
+		<script id="vs" type="notjs" src="shaders/vertex.glsl"></script>
+
+		<!-- Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+
+		<!-- Stylesheets -->
+		<link rel="stylesheet" type="text/css" href="css/styles.css"/>
+		<!-- Javascript -->
+		<script type="text/javascript" src="js/utils.js"></script>
+		<script type="text/javascript" src="js/view.js"></script>
+		<script type="text/javascript" src="js/input.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+	</head>
+	<body onload="Initialize()">
+		
+
+		<div id="header">
+			<h1>Edit.or</h1>
+			<p><i>Simple Signed Distance Field Editor</i></p>
+		</div>
+
+		<div id="toolbar">
+			<span class="tool_btn noselect" id="C_Circle">Circle</span>
+			<span class="tool_btn noselect" id="C_Rect">Rectangle</span>
+		</div>
+
+		<canvas id="editor"></canvas>
+	</body>
+</html>

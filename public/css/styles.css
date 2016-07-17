@@ -1,0 +1,45 @@
+body {
+	margin: 0;
+	overflow: hidden;
+}
+
+#header {
+	position: absolute;
+	padding: 2vw;
+	pointer-events: none;
+}
+
+#toolbar {
+	width: 100%;
+	margin: 0 auto;
+	text-align: center;
+	position: fixed;
+	bottom: 0;
+	margin-bottom: 2vw;
+	user-select: none;
+}
+
+#toolbar #C_Circle {
+	background-color: #ECA863;
+}
+
+#toolbar #C_Rect {
+	background-color: #6363EC;
+}
+
+.tool_btn {
+	text-transform: uppercase;
+	padding: 1vw;
+/*	margin: 2vw;*/
+	font-size: 2vw;
+	cursor: pointer;
+	-webkit-user-select: none;
+	font-family: 'Roboto Slab', serif;
+}
+
+#editor {	
+	width: 100vw;
+	height: 100vh;
+	cursor: pointer;
+}
+
