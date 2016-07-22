@@ -8,17 +8,18 @@ var SDF = {
 		for(var i = 0; i < this.shapes.length; ++i) {
 			var shapeVar = "shape" + i;
 			map_shapes += "float " + shapeVar + "=" + this.shapes[i].stringify() + ";";
-			map_shapes += "smin(result, " + shapeVar + " , " + this.shapes[i].blend.toFixed(3) + ");"
+			map_shapes += "result = smin(result, " + shapeVar + " , " + this.shapes[i].blend.toFixed(3) + ");"
 		}
 
 		var map_end = "return 1.0 - smoothstep(0.0, 3.0 / resolution.y * camera.z*1.25, result);}";
 		return Utils.String.combine([map_beg, map_shapes, map_end], {infix: '\n'});
 	},
 	Create: {
-		circle: function(x, y, rad) {
+		circle: function(x, y, rad, color, blend) {
 			var c = {
 				c: Maths.Create.circle(x, y, rad),
-				blend: 1,
+				blend: blend,
+				color: color,
 				stringify: function() {
 					return "sdCircle(q, " + vec2(this.c.pos.x, this.c.pos.y) + ", " + this.c.rad.toFixed(3) + ")"
 				}

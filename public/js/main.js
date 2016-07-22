@@ -3,7 +3,8 @@ var shaders = [];
 
 var camera;
 
-SDF.Create.circle(0, 0, 10);
+SDF.Create.circle(0, 0, 2, {r:0, g: 0, b:0}, 0.0);
+SDF.Create.circle(2, 0, 1, {r:0, g: 0, b:0}, 0.5);
 
 var headers_glsl = Resources.require("shaders/fragment/headers.glsl");
 var main_glsl = Resources.require("shaders/fragment/main.glsl");
@@ -12,13 +13,18 @@ var map_glsl = Resources.require("shaders/fragment/fragment.glsl");
 var fragment_glsl = "";
 var vertex_glsl = Resources.require("shaders/vertex/vertex.glsl");
 
-
-Resources.oncomplete = function() {
+function Compile() {
   fragment_glsl = Utils.String.combine([headers_glsl.data, sdf_glsl.data, SDF.stringify(), main_glsl.data]);
   shaders[0] = vertex_glsl.data;
   shaders[1] = fragment_glsl;
+  SetShaders(shaders[0], shaders[1]);
+}
+
+Resources.oncomplete = function() {
+  
 
   SetupEditor();
+  //SetupGUI();
 }
 
 
@@ -45,7 +51,7 @@ function SetupEditor()
     //Setup GL
     gl = twgl.getWebGLContext(document.getElementById("editor"));
    // programInfo = twgl.createProgramInfo(gl, ["vs", "fs"]);
-    SetShaders(shaders[0], shaders[1]);
+    Compile();
 
     var arrays = {
       position: [-1, -1, 0, 1, -1, 0, -1, 1, 0, -1, 1, 0, 1, -1, 0, 1, 1, 0],
@@ -60,6 +66,10 @@ function SetupEditor()
     camera = Camera();
 
     function update(time) {
+      //SDF.shapes[0].c.pos.x = Input.Mouse.x;
+      //SDF.shapes[0].c.pos.y = Input.Mouse.y;
+      SDF.shapes[1].blend = Input.Mouse.y;
+      SDF.shapes[1].c.rad = -Input.Mouse.x + 1;
       Input.update();
       camera.update();
     }
@@ -98,6 +108,7 @@ function SetupEditor()
     }
 
     function displayLoop(time) {
+      Compile();
       update(time);
       render(time);
       lateUpdate(time);
@@ -113,12 +124,25 @@ function SetupGUI() {
   function draw() {
     c.width = window.innerWidth;
     c.height = window.innerHeight;
+    var aspect = c.width / c.height;
+
+
    // console.log(camera.pos);
     ctx.save();
-      ctx.translate((camera.pos.x * -c.width) / 1.23, camera.pos.y * c.height / 1.23);
+
+      ctx.scale(c.width, c.height);
+      ctx.translate(0.5, 0.5)
+      ctx.scale(-2, 2);
+      ctx.scale(1/aspect, 1);
+
+      
+ctx.translate((camera.pos.x)*0.5/aspect,0);
+      
+      
       ctx.scale(1/camera.zoom, 1/camera.zoom);
+
       ctx.fillStyle = "orange";
-      ctx.fillRect(10, 10, 100, 100);
+      ctx.fillRect(-0.5, -0.5, 1, 1);
     ctx.restore();
     requestAnimationFrame(draw);
   }
