@@ -6,8 +6,13 @@ void main() {
   	uv.x *= aspect;
 
   	//Apply view translation (Should be mat3)
-  	uv += camera.xy * 1.23;
-  	uv *= camera.z;
+  	//uv += camera.xy * 1.23;
+  	//uv *= camera.z;
+
+  	vec3 t = vec3(uv, 1.0);
+  	//t *= view;
+  	t = view * t;
+  	uv = t.xy;
   
 	vec3 col = vec3(0.9);
 

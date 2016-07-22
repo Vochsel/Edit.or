@@ -21,7 +21,7 @@ var SDF = {
 				blend: blend,
 				color: color,
 				stringify: function() {
-					return "sdCircle(q, " + vec2(this.c.pos.x, this.c.pos.y) + ", " + this.c.rad.toFixed(3) + ")"
+					return "sdCircle(q, " + glsl.vec2(this.c.pos.x, this.c.pos.y) + ", " + this.c.rad.toFixed(3) + ")"
 				}
 			}
 

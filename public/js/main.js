@@ -64,12 +64,13 @@ function SetupEditor()
 
     //Setup Camera
     camera = Camera();
+    camera.setup();
 
     function update(time) {
       //SDF.shapes[0].c.pos.x = Input.Mouse.x;
       //SDF.shapes[0].c.pos.y = Input.Mouse.y;
-      SDF.shapes[1].blend = Input.Mouse.y;
-      SDF.shapes[1].c.rad = -Input.Mouse.x + 1;
+      //SDF.shapes[1].blend = Input.Mouse.y - 0.5;
+      //SDF.shapes[1].c.rad = -Input.Mouse.x + 1;
       Input.update();
       camera.update();
     }
@@ -82,6 +83,7 @@ function SetupEditor()
         time: time * 0.001,
         resolution: [gl.canvas.width, gl.canvas.height],
         camera: [camera.pos.x, camera.pos.y, camera.zoom],
+        view: camera.data,
         circle: [0.0, 0.0, 1.0],        
       };
 
@@ -136,7 +138,7 @@ function SetupGUI() {
       ctx.scale(1/aspect, 1);
 
       
-ctx.translate((camera.pos.x)*0.5/aspect,0);
+      ctx.translate((camera.pos.x)*0.5/aspect,0);
       
       
       ctx.scale(1/camera.zoom, 1/camera.zoom);
