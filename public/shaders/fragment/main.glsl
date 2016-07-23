@@ -1,24 +1,24 @@
 void main() {
-  	float aspect = resolution.x / resolution.y;
+  float aspect = resolution.x / resolution.y;
 
-	vec2 sc = gl_FragCoord.xy / resolution;
-  	vec2 uv = sc * 2.0 - 1.0;
-  	uv.x *= aspect;
+  vec2 sc = gl_FragCoord.xy / resolution;
+  vec2 uv = sc * 2.0 - 1.0;
+  uv.x *= aspect;
 
-  	//Apply view translation (Should be mat3)
-  	//uv += camera.xy * 1.23;
-  	//uv *= camera.z;
+  //Apply view translation (Should be mat3)
+  uv += camera.xy;
+  uv *= camera.z;
 
-  	vec3 t = vec3(uv, 1.0);
-  	//t *= view;
-  	t = view * t;
-  	uv = t.xy;
-  
-	vec3 col = vec3(0.9);
+  vec3 t = vec3(uv, 1.0);
+  //t *= view;
+  //t = view * t;
+  uv = t.xy;
 
-	col = mix(col, vec3(0.5), grid(uv, 0.1));
-	col = mix(col, vec3(0.1), map(uv));
-	
+  vec3 col = vec3(0.9);
 
-	gl_FragColor = vec4(col, 1.0);
+  col = mix(col, vec3(0.5), grid(uv, 0.1));
+  col = mix(col, vec3(0.1), map(uv));
+
+
+  gl_FragColor = vec4(col, 1.0);
 }

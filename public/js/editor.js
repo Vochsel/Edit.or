@@ -8,7 +8,6 @@ var editor = {
 				},
 				rad: r,
 				col: col,
-				
 			}
 		}
 	}

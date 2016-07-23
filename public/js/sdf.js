@@ -11,7 +11,7 @@ var SDF = {
 			map_shapes += "result = smin(result, " + shapeVar + " , " + this.shapes[i].blend.toFixed(3) + ");"
 		}
 
-		var map_end = "return 1.0 - smoothstep(0.0, 3.0 / resolution.y * camera.z*1.25, result);}";
+		var map_end = "return 1.0 - smoothstep(0.0, 3.0 / resolution.y * camera.z, result);}";
 		return Utils.String.combine([map_beg, map_shapes, map_end], {infix: '\n'});
 	},
 	Create: {

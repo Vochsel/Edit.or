@@ -3,8 +3,8 @@ var shaders = [];
 
 var camera;
 
-SDF.Create.circle(0, 0, 2, {r:0, g: 0, b:0}, 0.0);
-SDF.Create.circle(2, 0, 1, {r:0, g: 0, b:0}, 0.5);
+SDF.Create.circle(0, 0, 2, {r:0, g: 0, b:0}, 0.5);
+SDF.Create.circle(2, 0, 1, {r:0, g: 0, b:0}, 0.95);
 
 var headers_glsl = Resources.require("shaders/fragment/headers.glsl");
 var main_glsl = Resources.require("shaders/fragment/main.glsl");
@@ -24,7 +24,7 @@ Resources.oncomplete = function() {
   
 
   SetupEditor();
-  //SetupGUI();
+  SetupGUI();
 }
 
 
@@ -67,8 +67,8 @@ function SetupEditor()
     camera.setup();
 
     function update(time) {
-      //SDF.shapes[0].c.pos.x = Input.Mouse.x;
-      //SDF.shapes[0].c.pos.y = Input.Mouse.y;
+      //SDF.shapes[0].c.pos.x = -(Input.Mouse.x + 1) * camera.zoom;
+      //SDF.shapes[0].c.pos.y = -(Input.Mouse.y - 0.5) * camera.zoom;
       //SDF.shapes[1].blend = Input.Mouse.y - 0.5;
       //SDF.shapes[1].c.rad = -Input.Mouse.x + 1;
       Input.update();
@@ -82,7 +82,7 @@ function SetupEditor()
       var uniforms = {
         time: time * 0.001,
         resolution: [gl.canvas.width, gl.canvas.height],
-        camera: [camera.pos.x, camera.pos.y, camera.zoom],
+        camera: [camera.pos[0], camera.pos[1], camera.zoom],
         view: camera.data,
         circle: [0.0, 0.0, 1.0],        
       };
@@ -118,9 +118,9 @@ function SetupEditor()
     }
   requestAnimationFrame(displayLoop);
 }
-
+var c;
 function SetupGUI() {
-  var c = document.getElementById("gui");
+  c = document.getElementById("gui");
   var ctx = c.getContext('2d');
 
   function draw() {
@@ -137,14 +137,28 @@ function SetupGUI() {
       ctx.scale(-2, 2);
       ctx.scale(1/aspect, 1);
 
-      
-      ctx.translate((camera.pos.x)*0.5/aspect,0);
-      
+      //ctx.scale(1/aspect, 1);
+//.setTransform(m[0], m[1], m[2], m[3], m[4], m[5]);
+      var m = camera.data;
+      //console.log(m)
+      //ctx.setTransform(m[0], m[3], m[1], m[4], m[6], m[7]);
+      //ctx.translate((camera.pos.x)*0.5/aspect,0);
+      //console.log(camera.pos[0])
+      //console.log(camera.pos);
+      var s = camera.zoom / 4;
       
       ctx.scale(1/camera.zoom, 1/camera.zoom);
+      ctx.translate(camera.pos[0] * s, camera.pos[1] * s);
+
 
       ctx.fillStyle = "orange";
-      ctx.fillRect(-0.5, -0.5, 1, 1);
+      //ctx.fillRect(-0.5, -0.5, 1, 1);
+      for(var i = 0; i < SDF.shapes.length; ++i) {
+        var s = SDF.shapes[i];
+        Graphics.draw.circle(ctx, -s.c.pos.x/4, -s.c.pos.y / 4, (s.c.rad / 4) - 0.025, {stroke: {color: "red", width: 0.005}}); 
+      }
+      //Graphics.draw.circle(ctx, 0, 0, 0.5, {stroke: {color: "red", width: 0.01}});
+      //Graphics.draw.circle(ctx, 0, 0, 0.5, {stroke: {color: "red", width: 0.01}});
     ctx.restore();
     requestAnimationFrame(draw);
   }
